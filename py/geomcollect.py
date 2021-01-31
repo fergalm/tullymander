@@ -5,8 +5,8 @@ Created on Tue Dec 29 13:06:00 2020
 @author: fergal
 """
 
-from ipdb import set_trace as idebug
-import numpy as np
+# from ipdb import set_trace as idebug
+# import numpy as np
 
 
 from frm.anygeom import AnyGeom

@@ -5,9 +5,9 @@ Created on Tue Jan 28 18:52:49 2020
 @author: fergal
 """
 
-from pdb import set_trace as debug
+# from pdb import set_trace as debug
 import pandas as pd
-import numpy as np
+# import numpy as np
 
 import osgeo.ogr as ogr
 

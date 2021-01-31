@@ -10,7 +10,7 @@ and vote counts for each precinct.
 from ipdb import set_trace as idebug
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
+# import numpy as np
 
 import matplotlib.collections as mcollect
 

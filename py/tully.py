@@ -22,8 +22,8 @@ o Underlying map?
 @author: fergal
 """
 
-from ipdb import set_trace as idebug
-from pdb import set_trace as debug
+# from ipdb import set_trace as idebug
+# from pdb import set_trace as debug
 import matplotlib.collections as mcollect
 import matplotlib.pyplot as plt
 import pandas as pd

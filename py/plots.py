@@ -35,7 +35,7 @@ import matplotlib.patches as mpatch
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import osgeo as ogr
-import pandas as pd
+# import pandas as pd
 import numpy as np
 import copy
 
