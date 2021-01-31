@@ -1,0 +1,9 @@
+
+
+#Lists which precincts are in each district
+district_mapper = '../data/council_districts.list'
+
+shapes = '../data/BaCoPrecinct-wgs84.shp'
+
+vote_history = '../data/tully_input.csv'
+precinct_population_column = 'Pop'
