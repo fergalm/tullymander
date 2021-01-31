@@ -1,9 +1,0 @@
-gdal
-ipython
-ipywidgets
-matplotlib
-numpy 
-pandas
-rtree
-requests
-toml
