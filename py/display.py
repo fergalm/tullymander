@@ -10,11 +10,12 @@ Select the block of code below and hit [SHIFT] + [ENTER]. This will cause a plot
 Move your mouse over a precinct and type the number of the district you want that precinct to be moved to. For example, point your mouse at one of the precincts in the extreme north of the county, and assign them to district 7 by hitting the [7] key. The precinct will change colour, and the table with update to show the population and vote shares of the newly drawn districts 3 and 7.
 """
 #%% code
+%matplotlib notebook
 from IPython.display import display
 import ipywidgets
 import iface
 
 console = ipywidgets.Output()
 configfile = "../config/council.toml"
-tt = iface.setup(configfile, console)
-display(tt, console)
+widgets = iface.setup(configfile, console)
+display(*widgets)

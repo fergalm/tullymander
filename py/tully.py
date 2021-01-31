@@ -65,6 +65,7 @@ class Tullymander():
 
         #Configure matplotlib to listen for key presses
         self.figure = plt.figure()
+        self.figure.set_size_inches((10, 10))
         self.figure.canvas.mpl_disconnect('key_press_event')
         self.figure.canvas.mpl_connect('key_press_event', self)
 
@@ -84,17 +85,8 @@ class Tullymander():
         self.geoms = df[idx].copy()
 
         self.mapper = loadMapper(settings['district_mapper'])
-        self.votes = pd.read_csv(settings['vote_history'])
+        self.votes = pd.read_csv(settings['vote_history'], index_col=0)
         self.pop_col = settings['precinct_population_column']
-
-
-
-        # #A list of precincts and which district they belong to
-        # #Also, obviously, placeholder code
-        # self.mapper = loadMapper('districtmapper.csv')
-
-        # #The expected vote tally per precinct.
-        # self.votes = pd.read_csv('tully_input.csv', index_col=0)
 
     def __del__(self):
         plt.gcf().canvas.mpl_disconnect('key_press_event')
@@ -134,16 +126,10 @@ class Tullymander():
 
         precinct = self.identifyPrecinctFromLngLat(lng, lat)
         self.setDistrict(precinct, newDistrict)
-        # score = computeScore(self.mapper, self.votes, self.votes_col)
-        # print(score)
-        # return score
-
 
     def identifyPrecinctFromLngLat(self, lng, lat):
         #TODO I should create an rtree for the shapes
         #to be searched faster
-
-        # print([lng, lat])
 
         try:
             point = AnyGeom([lng, lat], 'POINT').as_geometry()
@@ -176,7 +162,6 @@ class Tullymander():
             district = self.mapper.getDistrict(name)[0]
             clr = 'C%i' %(district)
 
-            # patches = AnyGeom(geom).as_patch(fc="none", ec=clr, lw=2)
             patches = AnyGeom(geom).as_patch(fc=clr, ec=clr, lw=2, alpha=.2)
             patchList.extend(patches)
 
@@ -217,26 +202,10 @@ class Tullymander():
 
     def selectPlatStyle(self, selection):
         pass
-# def computeScore(districtMapper, votes, votes_col):
-#     results = dict()
-#     mapper = districtMapper
-#     districts = mapper.listDistricts()
-
-#     idebug()
-#     for d in districts:
-#         precincts = mapper.getPrecincts(d)
-#         idx = votes.precinct.isin(precincts)
-#         series = votes[votes_col]
-#         assert np.any(idx)
-#         results[d] = np.sum(series[idx])
-
-#     return results
-
 
 
 def loadMapper(fn):
     df = pd.read_csv(fn)
-    # print(df.iloc[0])
 
     precincts = df.precinct.values
     districts = df.district.values
@@ -244,44 +213,4 @@ def loadMapper(fn):
     mapper = PrecinctToDistrictMapper(precincts, districts)
     return mapper
 
-
-
-# def parseElectionResults(fn):
-#     df = pd.read_csv(fn)
-#     tmp = df['precinct'].apply(lambda x: x[1:])
-#     df['precinct'] = tmp
-
-#     idx = df['race'] == 'County Executive'
-#     assert np.any(idx)
-#     df = df[idx]
-#     df['party'] = df['candidate'].str.slice(-4, -1)
-
-#     idx = (df.party == 'DEM') | (df.party == 'REP')
-#     df = df[idx]
-
-#     dem = df[df.party == 'DEM']
-#     rep = df[df.party == 'REP']
-
-#     merge = pd.merge(dem, rep, on='precinct')
-#     merge['county_exec'] = merge['votes_x'] - merge['votes_y']
-
-#     merge = merge[ ['precinct', 'county_exec']  ]
-#     return merge
-
-
-
-# def shrinkGeoms(self):
-#     """Shrink the input geometries so their boundary lines don't overlap"""
-#     print("Buffering Geometries")
-#     geoms = self.geoms
-#     # idebug()
-#     # print(str(geoms[0])[:100])
-#     # geoms = list(map(lambda x: x.Buffer(-0.05), geoms))
-#     for i in range(len(geoms)):
-#         g = geoms['geom'].iloc[i]
-#         h = g.Buffer(-.005)
-#         geoms['geom'].iloc[i] = h
-#         # idebug()
-#     # self.geoms['geoms'] = geoms
-#     # print(str(self.geoms.iloc[0])[:100])
 
