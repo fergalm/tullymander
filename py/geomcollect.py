@@ -9,8 +9,8 @@ Created on Tue Dec 29 13:06:00 2020
 # import numpy as np
 
 
-from frm.anygeom import AnyGeom
-import frm.plots as fplots
+from anygeom import AnyGeom
+import plots as fplots
 import rtree
 
 

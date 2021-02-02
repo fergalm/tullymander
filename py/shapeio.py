@@ -6,10 +6,10 @@ Created on Tue Jan 28 18:52:49 2020
 """
 
 # from pdb import set_trace as debug
+import osgeo.ogr as ogr
 import pandas as pd
 # import numpy as np
 
-import osgeo.ogr as ogr
 
 def loadShapefile(fn):
     """

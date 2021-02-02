@@ -30,7 +30,7 @@ import pandas as pd
 import numpy as np
 
 from precinctmapper import PrecinctToDistrictMapper
-from frm.anygeom import AnyGeom
+from anygeom import AnyGeom
 
 import shapeio
 import utils

@@ -8,11 +8,11 @@ Created on Mon Dec 28 10:50:34 2020
 # from ipdb import set_trace as idebug
 # from pdb import set_trace as debug
 # import matplotlib.pyplot as plt
-import pandas as pd
 # import numpy as np
+import pandas as pd
+import census
 
 
-import frm.census
 
 
 def main():
@@ -42,10 +42,10 @@ def main():
     )
 
     # #Get demographics
-    cq = frm.census.CensusQuery(frm.census.DEFAULT_KEY)
+    cq = census.CensusQuery(census.DEFAULT_KEY)
     demo = cq.query_block(2010, 'dec', 'sf1', balco_fips, list(cols.keys()))
 
-    tq = frm.census.TigerQueryDec('/home/fergal/data/elections/shapefiles/tiger')
+    tq = census.TigerQueryDec('/home/fergal/data/elections/shapefiles/tiger')
     geom = tq.query_block(2010, balco_fips)
     geom = geom[ ['GEOID10', 'geoms'] ]
 

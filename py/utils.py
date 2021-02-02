@@ -11,8 +11,8 @@ Created on Tue Jan 28 18:59:53 2020
 # import pandas as pd
 # import numpy as np
 
-import datetime
 import osgeo.ogr as ogr
+import datetime
 
 
 class Timer(object):

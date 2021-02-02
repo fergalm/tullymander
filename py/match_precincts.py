@@ -15,8 +15,8 @@ import pandas as pd
 import matplotlib.collections as mcollect
 
 from geomcollect import GeomCollection
-from frm.anygeom import AnyGeom
-import frm.plots as fplots
+from anygeom import AnyGeom
+import plots as fplots
 from tqdm import tqdm
 import itertools
 import shapeio

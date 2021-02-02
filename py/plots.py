@@ -40,49 +40,49 @@ import numpy as np
 import copy
 
 from .anygeom import AnyGeom
-from . import plotstyle
-from . import oicolours as oic
+# from . import plotstyle
+# from . import oicolours as oic
 
-DEFAULT_CMAP = oic.oi_cmap_r
+# DEFAULT_CMAP = oic.oi_cmap_r
 
-oi_cmap = copy.copy(oic.oi_cmap)
-oi_cmap.set_under('#00FF0000')  #Transparent
-oi_cmap.set_over('r')
+# oi_cmap = copy.copy(oic.oi_cmap)
+# oi_cmap.set_under('#00FF0000')  #Transparent
+# oi_cmap.set_over('r')
 
-oi_cmap_r = copy.copy(oic.oi_cmap_r)
-oi_cmap_r.set_under('#00FF0000')  #Transparent
-oi_cmap_r.set_over('r')
+# oi_cmap_r = copy.copy(oic.oi_cmap_r)
+# oi_cmap_r.set_under('#00FF0000')  #Transparent
+# oi_cmap_r.set_over('r')
 
-add_watermark = plotstyle.add_watermark
-mark_as_draft = plotstyle.mark_as_draft
+# add_watermark = plotstyle.add_watermark
+# mark_as_draft = plotstyle.mark_as_draft
 
 
-def oi_scatter(*args, **kwargs):
-    """Scatter plot with discrete colourbar.
+# def oi_scatter(*args, **kwargs):
+#     """Scatter plot with discrete colourbar.
 
-    Orbital Insight plot style encourages colourbars with 7 discrete
-    colours instead of continous colors. This function implements
-    a scatter plot with such a colourbar.
+#     Orbital Insight plot style encourages colourbars with 7 discrete
+#     colours instead of continous colors. This function implements
+#     a scatter plot with such a colourbar.
 
-    See :meth:`plot_with_discrete_cb` for more details
+#     See :meth:`plot_with_discrete_cb` for more details
 
-    Optional Inputs
-    ------------------
-    Same as ``matplotlib.pyplot.scatter``
+#     Optional Inputs
+#     ------------------
+#     Same as ``matplotlib.pyplot.scatter``
 
-    Returns
-    ---------
-    Same as :meth:`plot_with_discrete_cb`
-    """
-    if 'clim' not in kwargs:
-        c = kwargs.get('c', None)
-        if c is None:
-            raise ValueError("This function requires the 'c' argument to scatter be set")
-        else:
-            clim = [np.nanmin(c), np.nanmax(c)]
-        kwargs['clim'] = clim
+#     Returns
+#     ---------
+#     Same as :meth:`plot_with_discrete_cb`
+#     """
+#     if 'clim' not in kwargs:
+#         c = kwargs.get('c', None)
+#         if c is None:
+#             raise ValueError("This function requires the 'c' argument to scatter be set")
+#         else:
+#             clim = [np.nanmin(c), np.nanmax(c)]
+#         kwargs['clim'] = clim
 
-    return plot_with_discrete_cb(plt.scatter, *args, **kwargs)
+#     return plot_with_discrete_cb(plt.scatter, *args, **kwargs)
 
 
 
@@ -95,56 +95,56 @@ def text_at_axis_coords(x, y, text, *args, **kwargs):
 
 
 
-def plot_with_discrete_cb(func, *args, **kwargs):
-    """Create a plot with a discrete colorbar.
+# def plot_with_discrete_cb(func, *args, **kwargs):
+#     """Create a plot with a discrete colorbar.
 
-    Orbital Insight plot style encourages colourbars with 7 discrete
-    colours instead of continous colors. This function wraps the call
-    to a plotting function with one that creates such a discrete colourbar.
+#     Orbital Insight plot style encourages colourbars with 7 discrete
+#     colours instead of continous colors. This function wraps the call
+#     to a plotting function with one that creates such a discrete colourbar.
 
-    Example plots shown in
-    https://orbitalinsight.atlassian.net/wiki/spaces/DATSCI/pages/83394804/Fonts+and+Plotting+Themes_
-
-
-    Inputs
-    -----------
-    func : Function to be wrapped. All required and optional arguments should be passed to
-        ``plot_with_discrete_cb`` as they would the original function.
-
-    Optional Inputs
-    ----------------
-    nstep (int): How many steps in the discrete colormap
-    cmap (``matplotlib.colors.Colormap`` object): The colourmap to use
-    clim (2 element list of floats):  Max and min values to map to the colour map.
-        This allows you to control what range of values get pinned to the extremes
-        of the colour range
-    cb_ticklabel_format (Format string): Control the format of the tick labels for the colourbar.
-
-    All other optional inputs get passed to ``func``
+#     Example plots shown in
+#     https://orbitalinsight.atlassian.net/wiki/spaces/DATSCI/pages/83394804/Fonts+and+Plotting+Themes_
 
 
-    Example
-    ------------
-    .. code-block:: python
-        plot_with_discreate_cb(plt.scatter, x, y, s=z, c=z, cmap=plt.cm.Greens)
+#     Inputs
+#     -----------
+#     func : Function to be wrapped. All required and optional arguments should be passed to
+#         ``plot_with_discrete_cb`` as they would the original function.
 
-    """
+#     Optional Inputs
+#     ----------------
+#     nstep (int): How many steps in the discrete colormap
+#     cmap (``matplotlib.colors.Colormap`` object): The colourmap to use
+#     clim (2 element list of floats):  Max and min values to map to the colour map.
+#         This allows you to control what range of values get pinned to the extremes
+#         of the colour range
+#     cb_ticklabel_format (Format string): Control the format of the tick labels for the colourbar.
 
-    nstep = kwargs.pop('nstep', 8)
-    cmap = kwargs.pop('cmap', oic.oi_cmap)
-    tick_format = kwargs.pop('cb_ticklabel_format', mticker.FormatStrFormatter("%i"))
-    clim = kwargs.pop('clim', None)
+#     All other optional inputs get passed to ``func``
 
-    if clim is None:
-        raise ValueError("clim must be specified")
 
-    norm = mcolors.BoundaryNorm(np.linspace(clim[0], clim[1], nstep), cmap.N)
-    kwargs['norm'] = norm
-    kwargs['cmap'] = cmap
+#     Example
+#     ------------
+#     .. code-block:: python
+#         plot_with_discreate_cb(plt.scatter, x, y, s=z, c=z, cmap=plt.cm.Greens)
 
-    function_handle = func(*args, **kwargs)
-    cb_handle = plt.colorbar(format=tick_format)
-    return function_handle, cb_handle
+#     """
+
+#     nstep = kwargs.pop('nstep', 8)
+#     cmap = kwargs.pop('cmap', oic.oi_cmap)
+#     tick_format = kwargs.pop('cb_ticklabel_format', mticker.FormatStrFormatter("%i"))
+#     clim = kwargs.pop('clim', None)
+
+#     if clim is None:
+#         raise ValueError("clim must be specified")
+
+#     norm = mcolors.BoundaryNorm(np.linspace(clim[0], clim[1], nstep), cmap.N)
+#     kwargs['norm'] = norm
+#     kwargs['cmap'] = cmap
+
+#     function_handle = func(*args, **kwargs)
+#     cb_handle = plt.colorbar(format=tick_format)
+#     return function_handle, cb_handle
 
 
 def borderplot(x, y, *args, **kwargs):
@@ -242,102 +242,102 @@ def put_colorbar_at_fig_coords(rect, **kwargs):
     return cb
 
 
-def chloropleth(polygons, values, **kwargs):
-    """Make a map where each polygon's colour is chosen on the basis of the
-    associated value
+# def chloropleth(polygons, values, **kwargs):
+#     """Make a map where each polygon's colour is chosen on the basis of the
+#     associated value
 
-    Inputs
-    -------------
-    polygons
-        (list or array) An array of WKT strings or ogr shapes
-    values
-        (list or array) The value associated with each polygon. The number
-        of polygons must equal the number of values
+#     Inputs
+#     -------------
+#     polygons
+#         (list or array) An array of WKT strings or ogr shapes
+#     values
+#         (list or array) The value associated with each polygon. The number
+#         of polygons must equal the number of values
 
-    Optional Inputs
-    -----------------
-    cmap
-        (matplotlib colormap) The color scheme used. Default is rainbow.
-    norm
-        (string or matplotlib normalisation object). How to map from value to
-        a colour. Default is a BoundaryNorm which produces 7 discrete colours.
-        `norm` can be a normalization object or the string 'hist'. If it's
-        'hist', we use histogram normalization
-    nstep
-        (int) How many steps in the discrete colourbar.
-    vmin, vmax
-        (floats) Min and max range of colour scale. Default is taken from range
-        of `values`
-    wantCbar
-        (bool) Draw a colour bar. Default is **True**
+#     Optional Inputs
+#     -----------------
+#     cmap
+#         (matplotlib colormap) The color scheme used. Default is rainbow.
+#     norm
+#         (string or matplotlib normalisation object). How to map from value to
+#         a colour. Default is a BoundaryNorm which produces 7 discrete colours.
+#         `norm` can be a normalization object or the string 'hist'. If it's
+#         'hist', we use histogram normalization
+#     nstep
+#         (int) How many steps in the discrete colourbar.
+#     vmin, vmax
+#         (floats) Min and max range of colour scale. Default is taken from range
+#         of `values`
+#     wantCbar
+#         (bool) Draw a colour bar. Default is **True**
 
-    All other optional inputs are passed to `matplotlib.patches.Polygon`
+#     All other optional inputs are passed to `matplotlib.patches.Polygon`
 
-    Returns
-    -----------
-    A patch collection object, and a colorbar object
-
-
-    Output
-    -----------
-    A plot is produced
+#     Returns
+#     -----------
+#     A patch collection object, and a colorbar object
 
 
-    Note
-    -----------
-    If function raises a value error "Histequ failed", try setting nstep
-    to a value less than 8.
-    """
-
-    assert len(polygons) == len(values), "Input args have different lengths"
-
-    #Choose default values
-    vmin = kwargs.pop('vmin', np.min(values))
-    vmax = kwargs.pop('vmax', np.max(values))
-    nstep = kwargs.pop('nstep', 8)
-    cmap  = kwargs.pop('cmap', DEFAULT_CMAP)
-    wantCbar = kwargs.pop('wantCbar', True )
-    ticklabel_format = kwargs.pop('ticklabel_format', '%i')
+#     Output
+#     -----------
+#     A plot is produced
 
 
-    #Complicated way of picking the norm. Default is linear. User can specify
-    #'hist', and we'll compute a histequ norm. Otherwise, treat the passed arg
-    #as a norm object.
-    default_norm = mcolors.BoundaryNorm(np.linspace(vmin, vmax, nstep), cmap.N)
-    norm = kwargs.pop('norm', default_norm )
-    if isinstance(norm, str):
-        if norm[:4].lower() == 'hist':
-            norm = create_histequ_norm(values, cmap, vmin, vmax, nstep)
-        else:
-            raise ValueError("Unrecognised normalization option %s" %(norm))
+#     Note
+#     -----------
+#     If function raises a value error "Histequ failed", try setting nstep
+#     to a value less than 8.
+#     """
 
-    # if isinstance(polygons[0], str):
-    #     polygons = map(ogr.CreateGeometryFromWkt, polygons)
-    patch_list = []
-    for p,v in zip(polygons, values):
-        #patch = ogrGeometryToPatches(p, facecolor=cmap(norm([v])[0]), alpha=a, **kwargs)
-        # patch = ogrGeometryToPatches(p, facecolor=cmap(norm([v])[0]), **kwargs)
-        patch = AnyGeom(p).as_patch(facecolor=cmap(norm([v])[0]), **kwargs)
-        patch_list.extend(patch)
-    pc = mcollect.PatchCollection(patch_list, match_original=True)
+#     assert len(polygons) == len(values), "Input args have different lengths"
 
-    #Plot the patchlist
-    ax = plt.gca()
-    ax.add_collection(pc)
+#     #Choose default values
+#     vmin = kwargs.pop('vmin', np.min(values))
+#     vmax = kwargs.pop('vmax', np.max(values))
+#     nstep = kwargs.pop('nstep', 8)
+#     cmap  = kwargs.pop('cmap', DEFAULT_CMAP)
+#     wantCbar = kwargs.pop('wantCbar', True )
+#     ticklabel_format = kwargs.pop('ticklabel_format', '%i')
 
-    #Draw a colorbar
-    if wantCbar:
-        cax, kw = mpl.colorbar.make_axes(ax)
-        cb = mpl.colorbar.ColorbarBase(cax, cmap=cmap, norm=norm,
-                                       format=ticklabel_format)
-    else:
-        cb = None
 
-    #Set the main panel as the default axis again (otherwise)
-    #future plotting will happen on the colourbar itself
-    plt.sca(ax)
+#     #Complicated way of picking the norm. Default is linear. User can specify
+#     #'hist', and we'll compute a histequ norm. Otherwise, treat the passed arg
+#     #as a norm object.
+#     default_norm = mcolors.BoundaryNorm(np.linspace(vmin, vmax, nstep), cmap.N)
+#     norm = kwargs.pop('norm', default_norm )
+#     if isinstance(norm, str):
+#         if norm[:4].lower() == 'hist':
+#             norm = create_histequ_norm(values, cmap, vmin, vmax, nstep)
+#         else:
+#             raise ValueError("Unrecognised normalization option %s" %(norm))
 
-    return pc, cb
+#     # if isinstance(polygons[0], str):
+#     #     polygons = map(ogr.CreateGeometryFromWkt, polygons)
+#     patch_list = []
+#     for p,v in zip(polygons, values):
+#         #patch = ogrGeometryToPatches(p, facecolor=cmap(norm([v])[0]), alpha=a, **kwargs)
+#         # patch = ogrGeometryToPatches(p, facecolor=cmap(norm([v])[0]), **kwargs)
+#         patch = AnyGeom(p).as_patch(facecolor=cmap(norm([v])[0]), **kwargs)
+#         patch_list.extend(patch)
+#     pc = mcollect.PatchCollection(patch_list, match_original=True)
+
+#     #Plot the patchlist
+#     ax = plt.gca()
+#     ax.add_collection(pc)
+
+#     #Draw a colorbar
+#     if wantCbar:
+#         cax, kw = mpl.colorbar.make_axes(ax)
+#         cb = mpl.colorbar.ColorbarBase(cax, cmap=cmap, norm=norm,
+#                                        format=ticklabel_format)
+#     else:
+#         cb = None
+
+#     #Set the main panel as the default axis again (otherwise)
+#     #future plotting will happen on the colourbar itself
+#     plt.sca(ax)
+
+#     return pc, cb
 
 
 def create_histequ_norm(values, cmap, vmin, vmax, nstep):
@@ -403,157 +403,157 @@ def fix_date_labels():
 
 
 
-def densityPlot(x,y, xBins, yBins, *args, **kwargs):
-    """
-    Plot x against y as points where points are sparse, but as shaded region when crowded.
+# def densityPlot(x,y, xBins, yBins, *args, **kwargs):
+#     """
+#     Plot x against y as points where points are sparse, but as shaded region when crowded.
 
-    When you have a lot of points to plot in a 2d graph, it is often difficult
-    to decide the best way to plot it. If you are interested in the typical
-    behaviour, an image of a 2d histogram is best, showing the density of
-    points in different regions. If you're interested in the outliers it
-    is better to plot each point individually.
+#     When you have a lot of points to plot in a 2d graph, it is often difficult
+#     to decide the best way to plot it. If you are interested in the typical
+#     behaviour, an image of a 2d histogram is best, showing the density of
+#     points in different regions. If you're interested in the outliers it
+#     is better to plot each point individually.
 
-    ``densityPlot`` combines the best of both worlds, showing indivdual
-    outliers overlaid on a density plot of a 2d histogram.
-
-
-    Inputs:
-    -------
-    x, y
-        (np.array) Arrays of values to plot
-    xbins, yBins
-        What bins to use for density 2d histogram. Can be ints or arrays
-        as allowd by ``np.histogram2d``
-
-    Optional Inputs:
-    ---------------
-    threshold
-        Individual data points are plotted if there are fewer than this
-        number in a 2d histogram bin.
-    cmap
-        Which colour map to use for histogram. Default: mp.cm.rainbow
-    interp
-        Whether to interplolate between bins to produce a smoother histogram.
-        Default: no interpolation (aka nearest)
-    aspect
-        Default value scales axes to give square bins.
-
-    All other optional arguments are passed to ``mp.plot()``
+#     ``densityPlot`` combines the best of both worlds, showing indivdual
+#     outliers overlaid on a density plot of a 2d histogram.
 
 
-    Returns:
-    --------
-    **None**
+#     Inputs:
+#     -------
+#     x, y
+#         (np.array) Arrays of values to plot
+#     xbins, yBins
+#         What bins to use for density 2d histogram. Can be ints or arrays
+#         as allowd by ``np.histogram2d``
 
-    Notes:
-    -----
-    * Inspired by a similar IDL function written by Micheal Strauss in IDL
-    * Won't work with postscript output
-    * Best results are obtained by using a colour map similar to the
-      colour of the points your using, e.g mp.cm.Greens and green circles.
+#     Optional Inputs:
+#     ---------------
+#     threshold
+#         Individual data points are plotted if there are fewer than this
+#         number in a 2d histogram bin.
+#     cmap
+#         Which colour map to use for histogram. Default: mp.cm.rainbow
+#     interp
+#         Whether to interplolate between bins to produce a smoother histogram.
+#         Default: no interpolation (aka nearest)
+#     aspect
+#         Default value scales axes to give square bins.
 
-    TODO:
-    ---------
-    Instead of having a wantLog, I should be able to pass in a normalisation
-    object.
-    """
-    threshold = kwargs.pop('threshold', 10)
-    cmap = kwargs.pop('cmap', DEFAULT_CMAP)
-    norm = kwargs.pop('norm', None)
-    # interp = kwargs.pop('interpolation', 'nearest')
-    # aspect = kwargs.pop('aspect', 'auto')   #Equal gives square bins
-    zorder = kwargs.pop('zorder', 0)
-    # wantLog = kwargs.pop('log', False)
-
-    # extent = [np.min(xBins), np.max(xBins), np.min(yBins), np.max(yBins)]
-    cmap.set_under(alpha=0)
-    plt.plot(x, y, zorder=zorder-1, *args, **kwargs)
-    plt.hist2d(x, y, bins=[xBins, yBins], cmap=cmap, norm=norm)
-
-    # extent = [np.min(xBins), np.max(xBins), np.min(yBins), np.max(yBins)]
-    # hist = np.histogram2d(y, x, bins=[yBins, xBins])[0]
-    # if wantLog:
-    #     hist = np.log10(hist + 1e-6)
-
-    # import ipdb; ipdb.set_trace()
-    # cmap.set_under(alpha=0)
-    # plt.plot(x, y, zorder=zorder-1, *args, **kwargs)
-    # plt.imshow(hist, origin="bottom", extent=extent,
-    #            zorder=zorder,
-    #            cmap=cmap,
-    #            interpolation=interp,
-    #            aspect=aspect,
-    #            norm=norm)
-
-    plt.clim(threshold)
+#     All other optional arguments are passed to ``mp.plot()``
 
 
+#     Returns:
+#     --------
+#     **None**
 
-def plot_timeseries(x, y, **kwargs):
-    """Plot a time-series as a stem plot using OI colours
+#     Notes:
+#     -----
+#     * Inspired by a similar IDL function written by Micheal Strauss in IDL
+#     * Won't work with postscript output
+#     * Best results are obtained by using a colour map similar to the
+#       colour of the points your using, e.g mp.cm.Greens and green circles.
 
-    Time series of counts of some object from satellite imagery tends to
-    look ugly when you plot it with the standard plot method. The points
-    are typically sparse, and clustered, and the plot is dominated by empty
-    space, or meangingless lines acrossing that space.
+#     TODO:
+#     ---------
+#     Instead of having a wantLog, I should be able to pass in a normalisation
+#     object.
+#     """
+#     threshold = kwargs.pop('threshold', 10)
+#     cmap = kwargs.pop('cmap', DEFAULT_CMAP)
+#     norm = kwargs.pop('norm', None)
+#     # interp = kwargs.pop('interpolation', 'nearest')
+#     # aspect = kwargs.pop('aspect', 'auto')   #Equal gives square bins
+#     zorder = kwargs.pop('zorder', 0)
+#     # wantLog = kwargs.pop('log', False)
 
-    Stem plots look good, provided only a single time series is being plotted
-    Multiple overlaid stem plots tend to look confused.
+#     # extent = [np.min(xBins), np.max(xBins), np.min(yBins), np.max(yBins)]
+#     cmap.set_under(alpha=0)
+#     plt.plot(x, y, zorder=zorder-1, *args, **kwargs)
+#     plt.hist2d(x, y, bins=[xBins, yBins], cmap=cmap, norm=norm)
 
-    Inputs
-    -----------
-    x, y
-        Input data. If x is **None**, it's set to {1..len(y)}
+#     # extent = [np.min(xBins), np.max(xBins), np.min(yBins), np.max(yBins)]
+#     # hist = np.histogram2d(y, x, bins=[yBins, xBins])[0]
+#     # if wantLog:
+#     #     hist = np.log10(hist + 1e-6)
 
-    Optional Inputs
-    ----------------
-    markerfmt
-        Change default plotting point from 'o' to something else
-    ms
-         Size of marker symbol. Deafult is 10
-    color
-        Color of points
-    lw
-        With of stem lines
-    linecolor
-        Color of stem lines
-    basefmt
-        Draw a line at zero, with style, e,g 'r--'
+#     # import ipdb; ipdb.set_trace()
+#     # cmap.set_under(alpha=0)
+#     # plt.plot(x, y, zorder=zorder-1, *args, **kwargs)
+#     # plt.imshow(hist, origin="bottom", extent=extent,
+#     #            zorder=zorder,
+#     #            cmap=cmap,
+#     #            interpolation=interp,
+#     #            aspect=aspect,
+#     #            norm=norm)
 
-    Returns
-    ----------
-    **None**
+#     plt.clim(threshold)
 
-    Output
-    -------
-    Points are added to the current plot
-    """
 
-    if x is None:
-        x = np.arange(len(y))
 
-    markerfmt = kwargs.pop('markerfmt', 'o')
-    basefmt = kwargs.pop('basefmt', ',')
-    color = kwargs.pop('color', oic.OI_LIGHT_BLUE_HEX)
-    lw = kwargs.pop('lw', 1)
-    ms = kwargs.pop('ms', 12)
-    linecolor = kwargs.pop('linecolor', oic.OI_GRAY_HEX)
-    label = kwargs.pop('label', None)
+# def plot_timeseries(x, y, **kwargs):
+#     """Plot a time-series as a stem plot using OI colours
 
-    marker, stem, _ = plt.stem(x, y, markerfmt=markerfmt, basefmt=basefmt, use_line_collection=True)
-    plt.setp(stem, 'color', linecolor)
-    plt.setp(stem, 'lw', lw)
-    plt.setp(stem, 'zorder', -1)
+#     Time series of counts of some object from satellite imagery tends to
+#     look ugly when you plot it with the standard plot method. The points
+#     are typically sparse, and clustered, and the plot is dominated by empty
+#     space, or meangingless lines acrossing that space.
 
-    plt.setp(marker, 'color', color)
-    plt.setp(marker, 'mec', "None")
-    plt.setp(marker, 'ms', ms)
-#    if label is not None:
-    plt.setp(marker, 'label', label)
+#     Stem plots look good, provided only a single time series is being plotted
+#     Multiple overlaid stem plots tend to look confused.
 
-    #Put a little white space at top and bottom of plot
-    padding = .02 * np.max(y)
-    plt.ylim(-padding, np.max(y)+padding)
+#     Inputs
+#     -----------
+#     x, y
+#         Input data. If x is **None**, it's set to {1..len(y)}
+
+#     Optional Inputs
+#     ----------------
+#     markerfmt
+#         Change default plotting point from 'o' to something else
+#     ms
+#          Size of marker symbol. Deafult is 10
+#     color
+#         Color of points
+#     lw
+#         With of stem lines
+#     linecolor
+#         Color of stem lines
+#     basefmt
+#         Draw a line at zero, with style, e,g 'r--'
+
+#     Returns
+#     ----------
+#     **None**
+
+#     Output
+#     -------
+#     Points are added to the current plot
+#     """
+
+#     if x is None:
+#         x = np.arange(len(y))
+
+#     markerfmt = kwargs.pop('markerfmt', 'o')
+#     basefmt = kwargs.pop('basefmt', ',')
+#     color = kwargs.pop('color', oic.OI_LIGHT_BLUE_HEX)
+#     lw = kwargs.pop('lw', 1)
+#     ms = kwargs.pop('ms', 12)
+#     linecolor = kwargs.pop('linecolor', oic.OI_GRAY_HEX)
+#     label = kwargs.pop('label', None)
+
+#     marker, stem, _ = plt.stem(x, y, markerfmt=markerfmt, basefmt=basefmt, use_line_collection=True)
+#     plt.setp(stem, 'color', linecolor)
+#     plt.setp(stem, 'lw', lw)
+#     plt.setp(stem, 'zorder', -1)
+
+#     plt.setp(marker, 'color', color)
+#     plt.setp(marker, 'mec', "None")
+#     plt.setp(marker, 'ms', ms)
+# #    if label is not None:
+#     plt.setp(marker, 'label', label)
+
+#     #Put a little white space at top and bottom of plot
+#     padding = .02 * np.max(y)
+#     plt.ylim(-padding, np.max(y)+padding)
 
 
 
