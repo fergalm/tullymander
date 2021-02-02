@@ -7,8 +7,8 @@ from __future__ import print_function
 from __future__ import division
 
 
-import shapely.wkt
-import shapely
+#import shapely.wkt
+#import shapely
 import numpy as np
 import json
 import osgeo.ogr as ogr
@@ -225,7 +225,8 @@ class AnyGeom(object):
 
 
     def as_shapely(self):
-        return shapely.wkt.loads( self.obj.ExportToWkt() )
+        return False
+        #return shapely.wkt.loads( self.obj.ExportToWkt() )
 
 
     def as_ofl(self):
