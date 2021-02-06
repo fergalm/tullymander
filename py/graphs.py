@@ -5,23 +5,9 @@ Created on Sat Feb  6 07:23:15 2021
 @author: fergal
 """
 
-from ipdb import set_trace as idebug
-from pdb import set_trace as debug
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-
-from pprint import pprint
-
 import matplotlib.collections as mcollect
+import matplotlib.pyplot as plt
 from anygeom import AnyGeom
-
-"""
-font backgroud white
-
-district pop on top
-
-"""
 
 
 def updatePlot(geoms, mapper, report_df):
