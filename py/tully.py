@@ -31,6 +31,7 @@ import numpy as np
 
 from precinctmapper import PrecinctToDistrictMapper
 from anygeom import AnyGeom
+import graphs
 
 import shapeio
 import utils
@@ -65,7 +66,7 @@ class Tullymander():
 
         #Configure matplotlib to listen for key presses
         self.figure = plt.figure()
-        self.figure.set_size_inches((10, 10))
+        self.figure.set_size_inches((10, 20))
         self.figure.canvas.mpl_disconnect('key_press_event')
         self.figure.canvas.mpl_connect('key_press_event', self)
 
@@ -74,7 +75,7 @@ class Tullymander():
         self.figure.canvas.mpl_disconnect('motion_notify_event')
         self.figure.canvas.mpl_connect('motion_notify_event', self.tooltip)
 
-        self.printReport()
+        # self.printReport()
         self.platPrecincts()
 
     def loadConfig(self, configfile):
@@ -105,7 +106,7 @@ class Tullymander():
             return
         self.updateDistrictOnRequest(lng, lat, newDistrict)
         self.platPrecincts()
-        self.printReport()
+        # self.printReport()
 
     def tooltip(self, event):
         lng = event.xdata
@@ -148,33 +149,8 @@ class Tullymander():
 
 
     def platPrecincts(self):
-        axl = plt.axis()
-
-        plt.clf()
-        patchList = []
-        for i in range(len(self.geoms)):
-            name = self.geoms.NAME.iloc[i]
-            geom = self.geoms.geom.iloc[i]
-
-            if geom.IsEmpty():
-                continue
-
-            district = self.mapper.getDistrict(name)[0]
-            clr = 'C%i' %(district)
-
-            patches = AnyGeom(geom).as_patch(fc=clr, ec=clr, lw=2, alpha=.2)
-            patchList.extend(patches)
-
-        pc = mcollect.PatchCollection(patchList,
-                                      match_original=True)
-
-        plt.gca().add_collection(pc)
-        plt.plot([-76.6, -76.4], [39.2, 39.7], 'w-', zorder=-1)
-
-        #Reset axis
-        if axl[0] != 0:
-            plt.axis(axl)
-        plt.pause(.001)
+        report = self.getReport()
+        graphs.updatePlot(self.geoms, self.mapper, report)
 
 
     def setDistrict(self, precinct, newDistrict):
