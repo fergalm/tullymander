@@ -41,7 +41,7 @@ import toml
 Timer = utils.Timer
 
 # from ipywidgets import interact
-from IPython.display import display
+from IPython.display import display, FileLink
 
 
 
@@ -98,7 +98,10 @@ class Tullymander():
         lat = event.ydata
         key = event.key
 
-        print(lng, lat, key)
+        if key == 'S':
+            self.getResultsFile()
+            return
+
         try:
             newDistrict = int(key)
         except ValueError as e:
@@ -179,6 +182,19 @@ class Tullymander():
     def selectPlatStyle(self, selection):
         pass
 
+    def getResultsFile(self):
+
+        out = self.votes.copy()
+        districts = self.mapper.getRange()
+        out['district'] = 0
+        for dd in districts:
+            precincts = self.mapper.getDomainFor(dd)
+            idx = out.NAME.isin(precincts)
+            out.loc[idx, 'district'] = dd
+
+        out.to_csv("tullymander_results.csv")
+        with self.console:
+            display(FileLink("tullymander_results.csv"))
 
 def loadMapper(fn):
     df = pd.read_csv(fn)
