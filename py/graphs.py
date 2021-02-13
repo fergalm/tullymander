@@ -8,7 +8,7 @@ Created on Sat Feb  6 07:23:15 2021
 import matplotlib.collections as mcollect
 import matplotlib.pyplot as plt
 from anygeom import AnyGeom
-import plots as fplots
+# import plots as fplots
 
 
 def updatePlot(geoms, mapper, report_df, highschool_geoms=None):
@@ -130,6 +130,6 @@ def addRect(y, val, name):
     plt.text(val+offset, y, text, ha=ha, fontdict=bbox)
 
 
-def addLayer(geoms, *args, **kwargs):
-    for g in geoms:
-        fplots.plot_shape(g, *args, **kwargs)
+# def addLayer(geoms, *args, **kwargs):
+#     for g in geoms:
+#         fplots.plot_shape(g, *args, **kwargs)
