@@ -15,10 +15,10 @@ def updatePlot(geoms, mapper, report_df, highschool_geoms=None):
 
     # import ipdb; ipdb.set_trace()
     fig = plt.gcf()
-    if len(fig.axes) > 0:
-        axl = fig.axes[0].axis()
-    else:
-        axl = None
+    # if len(fig.axes) > 0:
+    #     axl = fig.axes[0].axis()
+    # else:
+    #     axl = None
 
     plt.clf()
 
@@ -33,8 +33,8 @@ def updatePlot(geoms, mapper, report_df, highschool_geoms=None):
 
     plt.sca(ax1)
 
-    if axl:
-        ax1.axis(axl)
+    # if axl:
+    #     ax1.axis(axl)
     platPrecincts(geoms, mapper)
 
     # if highschool_geoms is not None:
