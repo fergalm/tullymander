@@ -87,9 +87,10 @@ class Tullymander():
         idx = np.array(list(map(lambda x: x is not None, df.NAME)))
         self.geoms = df[idx].copy()
 
-        df = shapeio.loadShapefile(settings['highschool_shapes'])
-        idx = np.array(list(map(lambda x: x is not None, df.NAME)))
-        self.highschool_df = df[idx].copy()
+        self.highschool_df = None
+        # df = shapeio.loadShapefile(settings['highschool_shapes'])
+        # idx = np.array(list(map(lambda x: x is not None, df.NAME)))
+        # self.highschool_df = df[idx].copy()
 
         self.mapper = loadMapper(settings['district_mapper'])
         self.votes = pd.read_csv(settings['vote_history'], index_col=0)
@@ -157,7 +158,8 @@ class Tullymander():
 
     def platPrecincts(self):
         report = self.getReport()
-        graphs.updatePlot(self.geoms, self.mapper, report, self.highschool_df.geom)
+        # graphs.updatePlot(self.geoms, self.mapper, report, self.highschool_df.geom)
+        graphs.updatePlot(self.geoms, self.mapper, report, None)
 
 
     def setDistrict(self, precinct, newDistrict):
