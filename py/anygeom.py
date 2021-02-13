@@ -93,7 +93,7 @@ class AnyGeom(object):
                     conv_points,
                     conv_geojson,
                     conv_pyshp,
-                    ]
+                    conv_shapely,]
 
         if geom is None:
             return None

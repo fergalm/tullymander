@@ -8,18 +8,11 @@ Created on Sat Feb  6 07:23:15 2021
 import matplotlib.collections as mcollect
 import matplotlib.pyplot as plt
 from anygeom import AnyGeom
-# import plots as fplots
 
 
-def updatePlot(geoms, mapper, report_df, highschool_geoms=None):
-
-    fig = plt.gcf()
-    # if len(fig.axes) > 0:
-    #     axl = fig.axes[0].axis()
-    # else:
-    #     axl = None
-
+def updatePlot(geoms, mapper, report_df):
     plt.clf()
+    fig = plt.gcf()
 
     #So many inches for map
     #So many inches for graphs
@@ -31,16 +24,10 @@ def updatePlot(geoms, mapper, report_df, highschool_geoms=None):
         ax.set_yticks([])
 
     plt.sca(ax1)
-
-    # if axl:
-    #     ax1.axis(axl)
     platPrecincts(geoms, mapper)
 
-    # if highschool_geoms is not None:
-    #     addLayer(highschool_geoms, 'r-', lw=1)
-
-    # plt.sca(ax2)
-    # plotReport(report_df)
+    plt.sca(ax2)
+    plotReport(report_df)
 
 
 def platPrecincts(geoms, mapper):
@@ -127,8 +114,3 @@ def addRect(y, val, name):
     plt.plot([0, val], [y, y], '-', color=clr, lw=2)
     text = "%s %+i" %(name, val)
     plt.text(val+offset, y, text, ha=ha, fontdict=bbox)
-
-
-# def addLayer(geoms, *args, **kwargs):
-#     for g in geoms:
-#         fplots.plot_shape(g, *args, **kwargs)
