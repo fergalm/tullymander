@@ -38,7 +38,7 @@ def updatePlot(geoms, mapper, report_df, highschool_geoms=None):
     platPrecincts(geoms, mapper)
 
     if highschool_geoms is not None:
-        addLayer(highschool_geoms, 'r-', lw=2)
+        addLayer(highschool_geoms, 'r-', lw=1)
 
     plt.sca(ax2)
     plotReport(report_df)
