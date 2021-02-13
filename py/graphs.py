@@ -13,7 +13,6 @@ from anygeom import AnyGeom
 
 def updatePlot(geoms, mapper, report_df, highschool_geoms=None):
 
-    # import ipdb; ipdb.set_trace()
     fig = plt.gcf()
     # if len(fig.axes) > 0:
     #     axl = fig.axes[0].axis()
@@ -40,8 +39,8 @@ def updatePlot(geoms, mapper, report_df, highschool_geoms=None):
     # if highschool_geoms is not None:
     #     addLayer(highschool_geoms, 'r-', lw=1)
 
-    plt.sca(ax2)
-    plotReport(report_df)
+    # plt.sca(ax2)
+    # plotReport(report_df)
 
 
 def platPrecincts(geoms, mapper):

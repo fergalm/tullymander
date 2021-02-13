@@ -75,7 +75,7 @@ class Tullymander():
         self.figure.canvas.mpl_disconnect('motion_notify_event')
         self.figure.canvas.mpl_connect('motion_notify_event', self.tooltip)
 
-        self.show_highschools = True
+        # self.show_highschools = True
 
         # self.printReport()
         self.platPrecincts()
@@ -87,7 +87,7 @@ class Tullymander():
         idx = np.array(list(map(lambda x: x is not None, df.NAME)))
         self.geoms = df[idx].copy()
 
-        self.highschool_df = None
+        # self.highschool_df = None
         # df = shapeio.loadShapefile(settings['highschool_shapes'])
         # idx = np.array(list(map(lambda x: x is not None, df.NAME)))
         # self.highschool_df = df[idx].copy()
@@ -159,7 +159,7 @@ class Tullymander():
     def platPrecincts(self):
         report = self.getReport()
         # graphs.updatePlot(self.geoms, self.mapper, report, self.highschool_df.geom)
-        graphs.updatePlot(self.geoms, self.mapper, report, None)
+        graphs.updatePlot(self.geoms, self.mapper, report)
 
 
     def setDistrict(self, precinct, newDistrict):
