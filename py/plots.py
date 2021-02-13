@@ -39,7 +39,7 @@ import osgeo as ogr
 import numpy as np
 import copy
 
-from .anygeom import AnyGeom
+from anygeom import AnyGeom
 # from . import plotstyle
 # from . import oicolours as oic
 

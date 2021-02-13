@@ -7,3 +7,5 @@ shapes = '../data/BaCoPrecinct-wgs84.shp'
 
 vote_history = '../data/tully_input.csv'
 precinct_population_column = 'Pop'
+
+highschool_shapes = '../data/High_School_Districts.shp'
