@@ -8,9 +8,9 @@ Created on Sat Feb  6 07:23:15 2021
 import matplotlib.collections as mcollect
 import matplotlib.pyplot as plt
 from anygeom import AnyGeom
+import plots as fplots
 
-
-def updatePlot(geoms, mapper, report_df):
+def updatePlot(geoms, mapper, report_df, highschool_df=None):
     plt.clf()
     fig = plt.gcf()
 
@@ -25,6 +25,9 @@ def updatePlot(geoms, mapper, report_df):
 
     plt.sca(ax1)
     platPrecincts(geoms, mapper)
+
+    if highschool_df:
+        addLayer(highschool_df.geom, 'r-', lw=1)
 
     plt.sca(ax2)
     plotReport(report_df)
@@ -114,3 +117,8 @@ def addRect(y, val, name):
     plt.plot([0, val], [y, y], '-', color=clr, lw=2)
     text = "%s %+i" %(name, val)
     plt.text(val+offset, y, text, ha=ha, fontdict=bbox)
+
+
+def addLayer(geoms, *args, **kwargs):
+    for g in geoms:
+        fplots.plot_shape(g, *args, **kwargs)
