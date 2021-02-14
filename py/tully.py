@@ -24,7 +24,6 @@ o Underlying map?
 
 # from ipdb import set_trace as idebug
 # from pdb import set_trace as debug
-import matplotlib.collections as mcollect
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -75,6 +74,8 @@ class Tullymander():
         self.figure.canvas.mpl_disconnect('motion_notify_event')
         self.figure.canvas.mpl_connect('motion_notify_event', self.tooltip)
 
+        self.show_highschools = True
+
         # self.printReport()
         self.platPrecincts()
 
@@ -84,6 +85,10 @@ class Tullymander():
         df = shapeio.loadShapefile(settings['shapes'])
         idx = np.array(list(map(lambda x: x is not None, df.NAME)))
         self.geoms = df[idx].copy()
+
+        df = shapeio.loadShapefile(settings['highschool_shapes'])
+        idx = np.array(list(map(lambda x: x is not None, df.NAME)))
+        self.highschool_df = df[idx].copy()
 
         self.mapper = loadMapper(settings['district_mapper'])
         self.votes = pd.read_csv(settings['vote_history'], index_col=0)
