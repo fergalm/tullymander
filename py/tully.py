@@ -158,7 +158,7 @@ class Tullymander():
 
     def platPrecincts(self):
         report = self.getReport()
-        graphs.updatePlot(self.geoms, self.mapper, report)
+        graphs.updatePlot(self.geoms, self.mapper, report, self.highschool_df)
 
 
     def setDistrict(self, precinct, newDistrict):
