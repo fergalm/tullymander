@@ -122,3 +122,31 @@ def addRect(y, val, name):
 def addLayer(geoms, *args, **kwargs):
     for g in geoms:
         fplots.plot_shape(g, *args, **kwargs)
+        
+        
+def get_ternary_rgb(dem, gop):
+    """Compute a colour to represent the ternary fraction of DEM, GOP and other
+    
+    Colours range from blue (majority democrat), through purple (50-50-0 D-R-I) through red.
+    As the fraction of others increases, the colour turns increasing pale, becoming
+    white when 100% of contribution is from others
+    
+    Inputs:
+    -------
+    dem, gop, (floats or numpy arrays). 
+        Fraction of democrats (blue) and republicans (red). dem, gop both in the range [0,1]
+       
+   Returns:
+   -------
+   A tuple representing the RGB colour to display
+   """
+    assert np.all(0 <= dem) and np.all(dem <= 1)
+    assert np.all(0 <= gop) and np.all(gop <= 1)
+    assert dem + rep <= 1
+    
+    ind = 1 - (dem+rep)
+    red = ind + rep
+    green =  ind
+    blue =  dem + ind
+    return (red, green, blue)
+    
