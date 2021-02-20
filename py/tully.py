@@ -155,11 +155,14 @@ class Tullymander():
             if geom.Contains(point):
                 return name
 
-
     def platPrecincts(self):
         report = self.getReport()
-        graphs.updatePlot(self.geoms, self.mapper, report, self.highschool_df)
 
+        df = None
+        if self.show_highschools:
+            df = self.highschool_df
+
+        graphs.updatePlot(self.geoms, self.mapper, report, df)
 
     def setDistrict(self, precinct, newDistrict):
         oldDistrict = self.mapper.getDistrict(precinct)[0]
@@ -186,6 +189,10 @@ class Tullymander():
 
     def selectPlatStyle(self, selection):
         pass
+
+    def toggle_highschools(self):
+        self.show_highschools = not self.show_highschools
+        self.platPrecincts()
 
     def getResultsFile(self):
 

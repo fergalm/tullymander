@@ -39,18 +39,27 @@ import pandas as pd
 def setup(configfile, console):
     tt = Tullymander(configfile, console)
 
-    def on_toggle_button_click(source):
+    def on_group_button_click(source):
         """This func gets called when the toggle buttons are clicked"""
         selection = source['new']
         tt.selectPlatStyle(selection)
 
     plat_options = tt.votes.columns
-    buttons = ipywidgets.ToggleButtons(options=plat_options)
-    buttons.observe(on_toggle_button_click, 'value')
+    button_group = ipywidgets.ToggleButtons(options=plat_options)
+    button_group.observe(on_group_button_click, 'value')
+
+
+    button = ipywidgets.ToggleButton(description="Highschools")
+
+    def on_hs_button_click(source):
+        tt.toggle_highschools()
+
+    button = ipywidgets.ToggleButton(description="Highschools", value=True)
+    button.observe(on_hs_button_click)
 
     #Tullymander can't do anything with the button input yet,
     #so it don't display the buttons
-    return [tt, console]
+    return [button, button_group, tt, console]
 
 
 class Silly():
