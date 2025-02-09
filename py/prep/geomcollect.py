@@ -9,8 +9,8 @@ Created on Tue Dec 29 13:06:00 2020
 # import numpy as np
 
 
-from anygeom import AnyGeom
-import plots as fplots
+from frm.anygeom import AnyGeom
+import frm.plots as fplots
 import rtree
 
 
@@ -24,15 +24,15 @@ class GeomCollection():
     Assumes none of the input geometries overlap (e.g they are
     precincts)
     """
-    def __init__(self, geom_df):
-        self.geom_df = geom_df
+    def __init__(self, geom_df, gCol='geom'):
+        self.gCol = gCol
+        self.geom_df = geom_df.reset_index(drop=True)
         self.geom_tree = self.create_tree()
-
 
     def create_tree(self):
         tree = rtree.index.Index(interleaved=False)
         for i, row in self.geom_df.iterrows():
-            geom  = row.geom
+            geom  = row[self.gCol]
             env = geom.GetEnvelope()
             tree.insert(i, env)
         return tree
@@ -43,7 +43,8 @@ class GeomCollection():
 
         idx = self.geom_tree.intersection(env)
         for i in idx:
-            pgeom = self.geom_df.geom.iloc[i]
+            # print(i)
+            pgeom = self.geom_df[self.gCol].iloc[i]
 
             if self.contains(pgeom, geom):
                 return self.geom_df.iloc[i]
@@ -56,5 +57,5 @@ class GeomCollection():
         return area1 / area2 > .9
 
     def plot(self, *args, **kwargs):
-        for geom in self.geom_df.geom:
+        for geom in self.geom_df[self.gCol]:
             fplots.plot_shape(geom, *args, **kwargs)

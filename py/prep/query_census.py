@@ -2,10 +2,13 @@
 """
 Created on Mon Dec 28 10:50:34 2020
 
+1. Use query_census to get per census block population
+2. Use compute_precinct_pop to get the per precinct populations
+3. Use create_input to merge population and vote difference values.
 @author: fergal
 """
 
-# from ipdb import set_trace as idebug
+from ipdb import set_trace as idebug
 # from pdb import set_trace as debug
 # import matplotlib.pyplot as plt
 # import numpy as np
@@ -13,9 +16,27 @@ import frm.census as census
 import pandas as pd
 
 
+def query_baltimore_county():
+    year = 2010
+    fips = '24005'
+    df = query_demographics_for_county(year, fips)
+    df.to_csv('censusdata_baltco_%i.csv' %(year))
 
 
-def main():
+def query_howard_county():
+    year = 2010
+    fips = '24027'
+    df = query_demographics_for_county(year, fips)
+    df.to_csv('censusdata_howard_%i.csv' %(year))
+
+def query_harford_county():
+    year = 2010
+    fips = '24025'
+    df = query_demographics_for_county(year, fips)
+    df.to_csv('censusdata_harford_%i.csv' %(year))
+
+
+def query_demographics_for_county(year, fips):
     """Query census for population and demographic data.
 
     Note quite working, only age and total population values are
@@ -34,8 +55,8 @@ def main():
     # )
 
 
-    year = 2020
-    balco_fips = '24005'  #FIPS for baltimore county
+    # year = 2020
+    # balco_fips = '24005'  #FIPS for baltimore county
     cols = dict(
         P003001 = 'Total Population',
         P003002 = 'White Population',
@@ -44,22 +65,20 @@ def main():
 
     # #Get demographics
     cq = census.CensusQuery(census.DEFAULT_KEY)
-    # demo = cq.query_block(year , 'dec', 'sf1', balco_fips, list(cols.keys()))
-    demo = cq.query_tract(2019 , 'acs', 'acs1', balco_fips, ['B01001_001E'])
-    return demo
+    demo = cq.query_block(year , 'dec', 'sf1', fips, list(cols.keys()))
 
     #For 2020, I couldn't figure out where the files had been put and
     #why, so I cheated, and downloaded
     #https://www2.census.gov/geo/tiger/TIGER2020PL/LAYER/TABBLOCK/2020/tl_2020_24005_tabblock20.zip
     #to my cache directory
     tq = census.TigerQueryDec('/home/fergal/data/elections/shapefiles/tiger')
-    geom = tq.query_block(year, balco_fips)
+    geom = tq.query_block(year, fips)
     fipsCol = tq.get_fips_alias_in_shapefile(year)
     geom = geom[ [fipsCol, 'geoms'] ]
 
+    # idebug()
     df = pd.merge(demo, geom, left_on='fips', right_index=True)
     df = df.drop('state county tract block GEOID10'.split(), axis=1)
-    df.to_csv('censusdata_%i.csv' %(year))
     return df
 
 

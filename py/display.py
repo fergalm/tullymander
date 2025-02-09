@@ -22,6 +22,6 @@ import ipywidgets
 import iface
 
 console = ipywidgets.Output()
-configfile = "../config/council.toml"
+configfile = "../config/council2020.toml"
 widgets = iface.setup(configfile, console)
 display(*widgets)

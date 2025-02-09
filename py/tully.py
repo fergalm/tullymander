@@ -74,7 +74,7 @@ class Tullymander():
         self.figure.canvas.mpl_disconnect('motion_notify_event')
         self.figure.canvas.mpl_connect('motion_notify_event', self.tooltip)
 
-        self.show_highschools = True
+        self.show_highschools = False
 
         # self.printReport()
         self.platPrecincts()
@@ -90,6 +90,7 @@ class Tullymander():
         idx = np.array(list(map(lambda x: x is not None, df.NAME)))
         self.highschool_df = df[idx].copy()
 
+        #import pdb; pdb.set_trace()
         self.mapper = loadMapper(settings['district_mapper'])
         self.votes = pd.read_csv(settings['vote_history'], index_col=0)
         self.pop_col = settings['precinct_population_column']
@@ -171,7 +172,7 @@ class Tullymander():
 
     def getReport(self):
         districts = self.mapper.getRange()
-        out = pd.DataFrame(columns=self.votes.columns, index=districts)
+        out = pd.DataFrame(columns=self.votes.columns, index=districts, dtype='object')
 
         for dd in districts:
             precincts = self.mapper.getDomainFor(dd)

@@ -41,6 +41,9 @@ def platPrecincts(geoms, mapper):
         name = geoms.NAME.iloc[i]
         geom = geoms.geom.iloc[i]
 
+        #if name == '11-004':
+            #import pdb; pdb.set_trace()
+            
         if geom.IsEmpty():
             continue
 
